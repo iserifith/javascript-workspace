@@ -5,6 +5,7 @@ const log = console.log;
 const challenge = require('./src/challenge');
 const cats = require('./src/cat');
 const games = require('./src/games');
+const misc = require('./src/misc');
 const spawn = require("child_process").spawn;
 const shell = require("shelljs");
 
@@ -30,6 +31,14 @@ program
 	.description('list all games')
 	.action(() => {
 		games.init();
+	});
+
+program
+	.command('misc')
+	.alias('m')
+	.description('list of misc stuff')
+	.action(() => {
+		misc.init();
 	});
 
 program
