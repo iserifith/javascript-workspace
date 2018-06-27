@@ -37,6 +37,11 @@ class Heroes {
 	}
 }
 
+
+/**
+ * 
+ * @param {string} name 
+ */
 exports.pickHero = name => {
 	let attr = mechanics.hero[name].attributes;
 	var hero = new Heroes(

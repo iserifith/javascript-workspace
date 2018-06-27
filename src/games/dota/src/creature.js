@@ -12,6 +12,11 @@ class Creatures {
     }
 }
 
+
+/**
+ * 
+ * @param {number} level 
+ */
 exports.spawnCreature = (level) => {
     possibleCreatures = mechanics.creature(level);
     spawnCreature = util.randObject(possibleCreatures);

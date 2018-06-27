@@ -9,10 +9,14 @@
   "author": "seri",
   "license": "ISC",
   "dependencies": {
+    "async": "^2.6.1",
+    "bluebird": "^3.5.1",
     "cat-ascii-faces": "^2.0.0",
     "chalk": "^2.4.1",
+    "change-case": "^3.0.2",
     "commander": "^2.15.1",
     "inquirer": "^6.0.0",
+    "lodash": "^4.17.10",
     "shelljs": "^0.8.2"
   }
 }

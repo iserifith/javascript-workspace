@@ -128,6 +128,10 @@ exports.hero = {
 	}
 };
 
+/**
+ * 
+ * @param {number} level 
+ */
 exports.creature = level => {
 	const level_1_10 = {
 		Satyr: {

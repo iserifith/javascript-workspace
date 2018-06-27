@@ -2,7 +2,8 @@ const inquirer = require('inquirer');
 const chalk = require('chalk');
 const _ = require('lodash');
 const changeCase = require('change-case');
-const Promise = require('bluebird');
+const shell = require('shelljs');
+const bluebird = require('bluebird');
 const creatureModel = require('./creature');
 const mechanics = require('./mechanics');
 const log = console.log;
@@ -28,25 +29,38 @@ function gainExp(hero, exp) {
 	}
 }
 
-function action(hero, creature, type, whichTurn) {
-	if (whichTurn == 'hero') {
-		if (type == 'attack') {
-			// return creature.current_hp = hero.current_damage - creature.current_hp;
-		} else if (type == 'abilities') {
-		} else if (type == 'item') {
-		}
-	} else if (whichTurn == 'creature') {
-		if (type == 'attack') {
-		} else if (type == 'abilities') {
-		}
-	}
+function abilitiesPrompt(hero) {
+	let abilities = [];
+	_.forOwn(hero.abilities, (value, key) => {
+		abilities.push(key);
+	});
+	abilities.push(new inquirer.Separator());
+	abilities.push('Hero Details');
+	abilities.push('Enemy Details');
+
+	log(chalk.bold.cyan(`Available Mana: ${hero.current_mana}`));
+
+	inquirer.prompt({
+		type: 'list',
+		name: 'abilities',
+		message: 'Which ability do you want to use?',
+		choices: abilities, 
+	}).then(answer => {
+		log(changeCase.titleCase(answer.abilities));
+	}).catch(reject => {
+		log(reject);
+	});
+
 }
 
-function abilitiesPrompt() {}
-
 function showHeroDetails(hero) {
-
-	log(chalk.green(`=========================== ${changeCase.titleCase(hero.name)} ==========================`));
+	log(
+		chalk.green(
+			`=========================== ${changeCase.titleCase(
+				hero.name
+			)} ==========================`
+		)
+	);
 	log(chalk.cyan(`${mechanics.hero[hero.name].description}`));
 	log(
 		chalk.green(
@@ -60,26 +74,28 @@ function showHeroDetails(hero) {
     LEVEL:  ${hero.current_level}
         `
 		)
-    );
-    
-    _.forOwn(hero.abilities, (value, key) => {
-        log(chalk.cyan(`${changeCase.titleCase(key)}`));
-        _.forOwn(value, (value, key) => {
-            if (typeof(value) !== 'object'){
-                log(chalk.magenta(` ${changeCase.titleCase(key)} : ${value} `));
-            } else {
-                log(chalk.magenta(' Effects'));
-                _.forOwn(value, (value, key) => {
-                    log(chalk.magenta(`   ${key} : ${value}`));
-                });
-            }
+	);
 
-        });
-    });
+	_.forOwn(hero.abilities, (value, key) => {
+		log(chalk.cyan(`${changeCase.titleCase(key)}`));
+		_.forOwn(value, (value, key) => {
+			if (typeof value !== 'object') {
+				log(chalk.magenta(` ${changeCase.titleCase(key)} : ${value} `));
+			} else {
+				log(chalk.magenta(' Effects'));
+				_.forOwn(value, (value, key) => {
+					log(chalk.magenta(`   ${key} : ${value}`));
+				});
+			}
+		});
+	});
 }
 
 function showEnemyDetails(creature) {
-	log(chalk.red(creature));
+	// log(chalk.red(_.toArray(creature)));
+	_.forOwn(creature, (value, key) => {
+		log(chalk.magenta(`${key} : ${value}`));
+	});
 }
 
 function actionPrompt(hero, creature) {
@@ -99,16 +115,18 @@ function actionPrompt(hero, creature) {
 		})
 		.then(answer => {
 			if (answer.action == 'Hero Details') {
-                showHeroDetails(hero);
-                actionPrompt(hero, creature);
+				showHeroDetails(hero);
+				actionPrompt(hero, creature);
 			} else if (answer.action == 'Enemy Details') {
 				showEnemyDetails(creature);
+				actionPrompt(hero, creature);
 			} else if (answer.action == 'Attack') {
-				heroUseAttack(hero, creature);
+				return heroUseAttack(hero, creature);
 			} else if (answer.action == 'Abilities') {
-				heroUseAbilities(hero, creature);
+				// return heroUseAbilities(hero, creature);
+				abilitiesPrompt(hero);
 			} else if (answer.action == 'Use Item') {
-				heroUseItem(hero);
+				return heroUseItem(hero);
 			}
 		})
 		.catch(reject => {
@@ -122,7 +140,7 @@ exports.initScene = hero => {
 	hero.current_hp = hero.baseHp;
 	hero.current_mana = hero.baseMana;
 	hero.current_damage = hero.baseDamage;
-	hero.items = {};
+	hero.items = [];
 
 	creature = creatureModel.spawnCreature(hero.current_level);
 	creature.current_hp = creature.hp;

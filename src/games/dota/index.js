@@ -1,8 +1,10 @@
 const inquirer = require('inquirer');
+const changeCase = require('change-case');
 const chalk = require('chalk');
 const heroModel = require('./src/heroes');
 const scene = require('./src/scene');
 const util = require('./src/util');
+const shell = require('shelljs');
 const log = console.log;
 
 function menu() {

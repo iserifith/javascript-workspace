@@ -29,15 +29,29 @@ exports.attackChances = () => {
 	}
 };
 
+/**
+ * 
+ * @param {Array} arr 
+ */
 exports.randArray = arr => {
 	return arr[Math.floor(Math.random() * arr.length)];
 };
 
+ /**
+  * 
+  * @param {Object} obj 
+  */
 exports.randObject = obj => {
 	var keys = Object.keys(obj);
 	return obj[keys[(keys.length * Math.random()) << 0]];
 };
 
+/**
+ * 
+ * @param {string} name 
+ * @param {string} message 
+ * @param {Array} choices 
+ */
 exports.listInquirer = (name, message, choices) => {
 	return inquirer.prompt({
 		type: 'list',
