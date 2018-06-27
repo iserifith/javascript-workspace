@@ -13,9 +13,7 @@ class Creatures {
 }
 
 exports.spawnCreature = (level) => {
-
-    let possibleCreatures = mechanics.creature(level);
-    return spawnCreature = util.randObject(possibleCreatures);
-
-
-}
+    possibleCreatures = mechanics.creature(level);
+    spawnCreature = util.randObject(possibleCreatures);
+    return new Creatures(spawnCreature.name, spawnCreature.hp, spawnCreature.gold_given, spawnCreature.exp_given, spawnCreature.damage_per_attack);
+};
