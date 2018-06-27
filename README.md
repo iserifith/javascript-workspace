@@ -23,8 +23,8 @@ $ node main.js --help
 
 # List of command
 
- list		    list all completed challenges
- challenge 1    choose a challenge by number
+ list           list all completed challenges
+ challenge \#   choose a challenge by number
  play           list all games
  misc           list of misc stuff
  cats           display cat faces. coz it cute
