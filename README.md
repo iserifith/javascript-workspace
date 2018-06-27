@@ -23,11 +23,11 @@ $ node main.js --help
 
 # List of command
 
-$ node index list		list all completed challenges
-$ node index challenge 1 choose a challenge by number
-$ node index play		list all games
-$ node index misc		list of misc stuff
-$ node index cats		 display cat faces. coz it cute
+ list		    list all completed challenges
+ challenge 1    choose a challenge by number
+ play           list all games
+ misc           list of misc stuff
+ cats           display cat faces. coz it cute
 ```
 
 
