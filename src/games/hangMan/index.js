@@ -67,6 +67,10 @@ function init() {
   }
 }
 
+/**
+ * 
+ * @param {string} q 
+ */
 function play(q) {
 
   var regexp = new RegExp(chances, "g");
@@ -146,11 +150,19 @@ function play(q) {
   });
 }
 
+/**
+ * 
+ * @param {string} q 
+ */
 function right(q) {
   currentRound = currentRound++;
   play(q);
 }
 
+/**
+ * 
+ * @param {string} q 
+ */
 function wrong(q) {
   if (chances > 1) {
     chances--;
@@ -197,6 +209,11 @@ function won() {
   }
 }
 
+/**
+ * 
+ * @param {Array} qArray 
+ * @param {string} ans 
+ */
 function replaceArray(qArray, ans) {
   if (guess.length != qArray.split("").length) {
     for (let i = 0; i < qArray.split("").length; i++) {
